@@ -8,6 +8,7 @@ Python 3.12.10
 4. Open terminal
 5. (optional) Create virtual environment
    - python -m venv myvenv (Create virtual environment)
-   - source myvenv/bin/activate (Activate virtual environment)
+   - Linux - source myvenv/bin/activate (Activate virtual environment)
+   - Windows - myenv\Scripts\activate
 6. Run command "pip install -r requirements.txt" (This will install all the requirements listed in requirements.txt)
 7. To run the app "python -m uvicorn main:app --reload"
