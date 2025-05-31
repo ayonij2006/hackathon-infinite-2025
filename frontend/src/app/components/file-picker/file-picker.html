@@ -1,0 +1,23 @@
+<div class="card">
+    <p-toast />
+    <p-fileupload name="demo[]"  [multiple]="false" accept="text/*" maxFileSize="1000000" mode="advanced" (onSelect)="onSelectedFiles($event)">
+        <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
+        <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
+            <div class="flex gap-2">
+                <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-file" label="Add File" class="btn-upload" />
+                <p-button (onClick)="uploadFile(files)" icon="pi pi-upload" label="Upload File" class="btn-upload" [disabled]="!files || files.length === 0"  />
+                <p-button (onClick)="clearCallback()" icon="pi pi-times" severity="danger" label="Cancel" [disabled]="!files || files.length === 0" />
+            </div>
+         
+        </div>
+    </ng-template>
+        <ng-template #empty>
+            <div>Drag and drop files to here to upload.</div>
+        </ng-template>
+<!--         <ng-template #content>
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+            </ul>
+        </ng-template> -->
+    </p-fileupload>
+</div>

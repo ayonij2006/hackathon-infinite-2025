@@ -11,7 +11,7 @@
                                 'border-surface': value > activeStep
                             }"
                         >
-                            <i class="pi pi-user"></i>
+                            <i class="pi pi-file-import"></i>
                         </span>
                     </button>
                 </ng-template>
@@ -54,7 +54,7 @@
             <p-step-panel [value]="1">
                 <ng-template #content let-activateCallback="activateCallback">
                     <div class="flex flex-col gap-2 mx-auto step-container">
-                       
+                       <app-file-picker></app-file-picker>
                     </div>
                     <div class="flex pt-6 justify-end">
                         <p-button (onClick)="activateCallback(2)" label="Next" icon="pi pi-arrow-right" iconPos="right" class="btn-next"/>
