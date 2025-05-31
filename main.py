@@ -1,6 +1,8 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 
+from tensorflow_check.tensorflow_check import run_tensorflow_check
+
 app = FastAPI()
 
 @app.get("/")
@@ -17,3 +19,8 @@ async def upload_file(file: UploadFile = File(...)):
         "content_type": file.content_type,
         "file_size_bytes": file_size
     })
+
+@app.get("/check-tensorflow")
+def check_tensorflow():
+    result = run_tensorflow_check()
+    return {"status": "success", "data": result}
