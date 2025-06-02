@@ -27,7 +27,7 @@
                                 'border-surface': value > activeStep
                             }"
                         >
-                            <i class="pi pi-star"></i>
+                            <i class="pi pi-info-circle"></i>
                         </span>
                     </button>
                 </ng-template>
@@ -43,7 +43,7 @@
                                 'border-surface': value > activeStep
                             }"
                         >
-                            <i class="pi pi-id-card"></i>
+                            <i class="pi pi-download"></i>
                         </span>
                     </button>
                 </ng-template>
@@ -54,10 +54,11 @@
             <p-step-panel [value]="1">
                 <ng-template #content let-activateCallback="activateCallback">
                     <div class="flex flex-col gap-2 mx-auto step-container">
-                       <app-file-picker></app-file-picker>
+                       <app-file-picker (onFileSelect)="onFileSelect($event)"></app-file-picker>
                     </div>
                     <div class="flex pt-6 justify-end">
-                        <p-button (onClick)="activateCallback(2)" label="Next" icon="pi pi-arrow-right" iconPos="right" class="btn-next"/>
+                        <p-button (onClick)="activateCallback(2); notifyNext()" label="Next" icon="pi pi-arrow-right" [disabled]="this.disableFilePreviewNxt"
+                        iconPos="right" class="btn-next"/>
                     </div>
                 </ng-template>
             </p-step-panel>
@@ -65,7 +66,7 @@
             <p-step-panel [value]="2">
                 <ng-template #content let-activateCallback="activateCallback">
                     <div class="flex flex-col gap-2 mx-auto step-container" >
-                       
+                       <app-metadata-preview [fileContent]="fileContent"></app-metadata-preview>
                     </div>
                     <div class="flex pt-6 justify-between">                        
                         <p-button (onClick)="activateCallback(1)" label="Back" severity="secondary" icon="pi pi-arrow-left" />
