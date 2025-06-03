@@ -1,0 +1,19 @@
+<div class="card">
+    <p-toast />
+    <p-fileupload name="demo[]"  [multiple]="false" accept="text/*" 
+    maxFileSize="1000000" mode="advanced" (onSelect)="onSelectedFiles($event)"
+    >
+        <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
+        <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
+            <div class="flex gap-2">
+                <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-paperclip" label="Attach File" class="btn-upload" />               
+                <p-button (onClick)="clearCallback()" icon="pi pi-times" severity="danger" label="Cancel" [disabled]="!files || files.length === 0" />
+            </div>
+         
+        </div>
+    </ng-template>
+        <ng-template #empty>
+            <div>Drag and drop files to here to attach.</div>
+        </ng-template>
+    </p-fileupload>
+</div>
