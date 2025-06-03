@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { LoaderService } from './loader.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
@@ -7,11 +7,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
   imports: [ ProgressSpinnerModule 
     ],
   templateUrl: './loader.html',
-  styleUrl: './loader.scss'
+  styleUrl: './loader.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Loader implements OnInit{
 
-  constructor(private loaderService: LoaderService) {
+  constructor(private loaderService: LoaderService,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   loading: boolean = false;
@@ -19,6 +22,7 @@ export class Loader implements OnInit{
   ngOnInit(): void {
     this.loaderService.loading$.subscribe((val: boolean) => {
       this.loading = val;
+      this.cdr.markForCheck();
     })
   }
 }

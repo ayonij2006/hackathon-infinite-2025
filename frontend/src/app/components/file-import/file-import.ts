@@ -27,7 +27,6 @@ export class FileImport implements OnInit  {
   activeStep: number = 1;
   disableFilePreviewNxt: boolean = true;
   fileContent!: string;
-
   constructor(private fileImportService: FileImportService) {}
 
   ngOnInit(): void {
@@ -38,6 +37,10 @@ export class FileImport implements OnInit  {
 
   notifyNext() {
     this.fileImportService.setNextClicked(true);
+  }
+
+  notifyToGenPackage() {
+    this.fileImportService.setReadyToGenPackage(true);
   }
 
   onFileSelect(event: string) {

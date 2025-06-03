@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FileImportService } from '../../service/file-import.service';
-import { ApiService } from '../../service/api.service';
 import { LoaderService } from '../../layout/loader/loader.service';
 import { ToastMessageService } from '../../layout/message/message.service';
 
@@ -16,25 +15,25 @@ import { ToastMessageService } from '../../layout/message/message.service';
   imports: [FileUpload, ButtonModule, CommonModule, CardModule],
 })
 export class FilePicker implements OnInit {
-
   @Output() onFileSelect = new EventEmitter<string>();
+  @Output() payload$ = new EventEmitter<any>();
   files = [];
   fileContent: any;
+  
   constructor(
-     private fileImportService: FileImportService,
-     private apiService: ApiService,
-     private loaderService: LoaderService,
-     private toastMessageService: ToastMessageService) {
-  }
+    private fileImportService: FileImportService,
+    private loaderService: LoaderService,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit(): void {
     this.fileImportService.message$.subscribe((res: any) => {
-      if(res) {
+      if (res) {
         this.customUpload(this.files);
         this.fileImportService.setSelectedFileContent(this.fileContent);
         this.onFileSelect.emit(this.fileContent);
       }
-    })     
+    });
   }
 
   choose(event: any, callback: any) {
@@ -51,7 +50,7 @@ export class FilePicker implements OnInit {
     this.loaderService.show();
     const reader = new FileReader();
 
-   reader.onload = (e: any) => {
+    reader.onload = (e: any) => {
       if (file.type.startsWith('text/') || file.type === 'application/json') {
         const fullText = e.target.result as string;
         const lines = fullText.split(/\r?\n/);
@@ -75,33 +74,27 @@ export class FilePicker implements OnInit {
 
   customUpload(file: any): void {
     this.loaderService.show();
-     this.readFileAsArrayBuffer(file)
-        .then((arrayBuffer: ArrayBuffer) => {   
-          const base64String = this.arrayBufferToBase64(arrayBuffer);
-          const payload = { data: base64String}
-          this.loaderService.hide();
-          this.loaderService.show();
-          setInterval(()=> {}, 10000)
-          this.apiService.analyzeFile(payload).subscribe (
-            {
-              next: (res) => {
-                setInterval(()=> {}, 10000)
-                this.loaderService.hide();
-                this.toastMessageService.show({
-                severity: 'success',
-                summary: 'Success',
-                detail: 'Meta data Extracted Successfully',
-                });
-              }
-            }
-          )
-        })
-        .catch((error: any) => {
-          console.error('Error reading file:', error);
+    this.readFileAsArrayBuffer(file)
+      .then((arrayBuffer: ArrayBuffer) => {
+        const base64String = this.arrayBufferToBase64(arrayBuffer);
+        const payload = { data: base64String };
+        this.payload$.emit(payload);
+        this.fileImportService.setFilePayload(payload);
+        this.loaderService.hide();
+      })
+      .catch((error: any) => {
+        this.loaderService.hide();
+        this.toastMessageService.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Error reading file',
         });
+        console.error('Error reading file:', error);
+        
+      });
   }
 
-   readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+  readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 

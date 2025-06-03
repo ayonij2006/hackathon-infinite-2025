@@ -13,4 +13,12 @@ export class ApiService {
             payload, {}
         );
     }
+
+    public genPackage(payload: any) {
+        return this.httpHelper.post(AppUrlConstants.GEN_DOWNLOAD_PACKAGE, 
+            payload, {}
+        );
+    }
+
+
 }

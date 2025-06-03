@@ -3,6 +3,7 @@
 /* @plugin "tailwindcss-primeui"; */
 @use "primeicons/primeicons.css";
 //@use 'primeflex/primeflex.scss';
+@import 'handsontable/dist/handsontable.full.min.css';
 
 body {
   font-family: 'Roboto', 'Open Sans', sans-serif;
