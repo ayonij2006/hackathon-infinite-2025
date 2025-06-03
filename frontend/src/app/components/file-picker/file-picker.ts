@@ -77,18 +77,13 @@ export class FilePicker implements OnInit {
     this.readFileAsArrayBuffer(file)
       .then((arrayBuffer: ArrayBuffer) => {
         const base64String = this.arrayBufferToBase64(arrayBuffer);
-        const payload = { data: base64String };
+        const payload = { data: base64String, fileName: file.name };
         this.payload$.emit(payload);
         this.fileImportService.setFilePayload(payload);
         this.loaderService.hide();
       })
       .catch((error: any) => {
         this.loaderService.hide();
-        this.toastMessageService.show({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error reading file',
-        });
         console.error('Error reading file:', error);
         
       });

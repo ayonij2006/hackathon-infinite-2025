@@ -16,7 +16,12 @@ export class ApiService {
 
     public genPackage(payload: any) {
         return this.httpHelper.post(AppUrlConstants.GEN_DOWNLOAD_PACKAGE, 
-            payload, {}
+            payload, {
+                options: {
+                requestType: 'blob',
+                observe: 'response'
+            }
+        }
         );
     }
 

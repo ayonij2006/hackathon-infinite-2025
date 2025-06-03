@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FileImportService } from '../../service/file-import.service';
 import { CardModule } from 'primeng/card';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -109,8 +109,12 @@ export class MetadataPreview implements OnInit {
     this.apiService.genPackage(request).subscribe( {
       next: (res: any) => {
         this.loaderService.hide();
-
-        //TODO: Download SSIS package
+        const blob = new Blob([res.content], { type: 'text/plain' });;
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = res.filename;
+        link.click();
+        window.URL.revokeObjectURL(link.href);
       },
       error: (err) => {
           this.loaderService.hide();
@@ -146,7 +150,7 @@ export class MetadataPreview implements OnInit {
       columns: this.getColumns(),
       colHeaders: true,
       rowHeaders: true,
-      height: 400,
+      height: 300,
       overflow: 'auto',
       manualColumnResize: true,
       manualRowMove: true,

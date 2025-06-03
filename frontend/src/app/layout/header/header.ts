@@ -26,9 +26,9 @@ export class Header implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Home',
-        icon: 'pi pi-fw pi-home',
-        routerLink: ['/']
+        label: 'GeneSSIS',
+        icon: 'pi pi-fw pi-bolt',
+        command: () => this.hardReload(),      
       },
       {
         label: 'About Us',
@@ -37,16 +37,37 @@ export class Header implements OnInit {
           {
             label: 'Team',
             icon: 'pi pi-fw pi-users',
-            routerLink: ['/about/team']
+            routerLink: ['/about/team'],
+            items: [
+              {
+              label: 'Ayonij Karki',
+              icon: 'pi pi-fw pi-user',
+              },
+              {
+                label: 'Ayush Guidel',
+                icon: 'pi pi-user',
+              },
+              {
+                label: 'Saroj Ramtel',
+                icon: 'pi pi-user',
+              },
+              {
+                label: 'Saroj Sharma',
+                icon: 'pi pi-user',
+              },
+              {
+                label: 'Shahad Shrestha',
+                icon: 'pi pi-user',
+              }
+            ]
           },
-          {
-            label: 'Contact',
-            icon: 'pi pi-fw pi-phone',
-            routerLink: ['/about/contact']
-          }
         ]
       },
     ];
+  }
+
+  hardReload() {
+    window.location.reload();
   }
 
 }
