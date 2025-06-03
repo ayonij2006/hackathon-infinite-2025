@@ -1,5 +1,6 @@
 from fastapi import Body, FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from models.Base64Request import Base64Request
 from models.CreatePackageRequest import CreatePackageRequest
@@ -7,6 +8,19 @@ from models.CreatePackageRequest import CreatePackageRequest
 import base64
 
 app = FastAPI()
+
+# Allow Angular dev server
+origins = [
+    "http://localhost:4200"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,         # 👈 allows Angular
+    allow_credentials=True,
+    allow_methods=["*"],           # GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],           # Authorization, Content-Type, etc.
+)
 
 @app.get("/")
 def read_root():
