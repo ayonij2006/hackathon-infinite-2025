@@ -1,0 +1,39 @@
+http://localhost:8000/create
+
+{
+    "field_qualifier": "",
+    "field_delimiter": "|",
+    "row_separator": "CRLF",
+    "mappings": [
+        {
+            "src_column_name": "id",
+            "trg_column_name": "id",
+            "datatype": "identity"
+        },
+        {
+            "src_column_name": "first_name",
+            "trg_column_name": "ifirst_named",
+            "datatype": "varchar"
+        },
+        {
+            "src_column_name": "last_name",
+            "trg_column_name": "last_name",
+            "datatype": "varchar"
+        },
+        {
+            "src_column_name": "last_name",
+            "trg_column_name": "last_name",
+            "datatype": "varchar"
+        },
+        {
+            "src_column_name": "gender",
+            "trg_column_name": "gender",
+            "datatype": "varchar"
+        },
+        {
+            "src_column_name": "ip_address",
+            "trg_column_name": "ip_address",
+            "datatype": "varchar"
+        }
+    ]
+}
