@@ -49,9 +49,17 @@ import base64
 @app.post("/create/")
 async def create_package(mapRequest: CreatePackageRequest):
     generate_package(mapRequest)
-    return JSONResponse({
-        "file_contents": "package creation successful"
-    })
+    file_path = "./output.txt"
+    file_name = "output.txt"
+
+    with open(file_path, "rb") as f:
+        content_bytes = f.read()
+
+    return {
+        "message": "file created successfully",
+        "filename": file_name,
+        "content": content_bytes
+    }
 
 def handle_base64_file(b64_string: str):
     try:
