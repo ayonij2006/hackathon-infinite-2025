@@ -1,32 +1,32 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
-import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FileImportService } from '../../service/file-import.service';
 import { ApiService } from '../../service/api.service';
+import { LoaderService } from '../../layout/loader/loader.service';
+import { ToastMessageService } from '../../layout/message/message.service';
 
 @Component({
   selector: 'app-file-picker',
 
   templateUrl: './file-picker.html',
   styleUrl: './file-picker.scss',
-
-  imports: [FileUpload, ButtonModule, ToastModule, CommonModule, CardModule],
-  providers: [MessageService],
+  imports: [FileUpload, ButtonModule, CommonModule, CardModule],
 })
 export class FilePicker implements OnInit {
 
   @Output() onFileSelect = new EventEmitter<string>();
   files = [];
   fileContent: any;
-  constructor(private messageService: MessageService,
+  constructor(
      private fileImportService: FileImportService,
-    private apiService: ApiService) {
-
+     private apiService: ApiService,
+     private loaderService: LoaderService,
+     private toastMessageService: ToastMessageService) {
   }
+
   ngOnInit(): void {
     this.fileImportService.message$.subscribe((res: any) => {
       if(res) {
@@ -41,15 +41,6 @@ export class FilePicker implements OnInit {
     callback();
   }
 
- /*  uploadFile(event: any) {
-    console.log(event);
-    this.messageService.add({
-      severity: 'info',
-      summary: 'File Uploaded',
-      detail: '',
-    });
-  } */
-
   onSelectedFiles(event: any) {
     this.files = event.currentFiles[0];
     this.readFileContent(this.files);
@@ -57,6 +48,7 @@ export class FilePicker implements OnInit {
   }
 
   readFileContent(file: any): void {
+    this.loaderService.show();
     const reader = new FileReader();
 
    reader.onload = (e: any) => {
@@ -78,18 +70,28 @@ export class FilePicker implements OnInit {
     } else {
       reader.readAsDataURL(file);
     }
+    this.loaderService.hide();
   }
 
-  customUpload(file: any): void {   
+  customUpload(file: any): void {
+    this.loaderService.show();
      this.readFileAsArrayBuffer(file)
         .then((arrayBuffer: ArrayBuffer) => {   
           const base64String = this.arrayBufferToBase64(arrayBuffer);
-          //TODO: Call endpoint to upload the file
           const payload = { data: base64String}
+          this.loaderService.hide();
+          this.loaderService.show();
+          setInterval(()=> {}, 10000)
           this.apiService.analyzeFile(payload).subscribe (
             {
               next: (res) => {
-                console.log(res);
+                setInterval(()=> {}, 10000)
+                this.loaderService.hide();
+                this.toastMessageService.show({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Meta data Extracted Successfully',
+                });
               }
             }
           )

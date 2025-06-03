@@ -1,5 +1,5 @@
 <div class="card flex justify-center container">
-    <p-stepper [(value)]="activeStep" class="basis-[40rem]">
+    <p-stepper [(value)]="activeStep" class="basis-[40rem]" [linear]="true">
         <p-step-list>
             <p-step [value]="1" class="flex flex-row flex-auto gap-2">
                 <ng-template #content let-activateCallback="activateCallback" let-value="value">
@@ -12,6 +12,7 @@
                             }"
                         >
                             <i class="pi pi-file-import"></i>
+                            Import File
                         </span>
                     </button>
                 </ng-template>
@@ -28,6 +29,7 @@
                             }"
                         >
                             <i class="pi pi-info-circle"></i>
+                            View File Metadata
                         </span>
                     </button>
                 </ng-template>
@@ -44,6 +46,7 @@
                             }"
                         >
                             <i class="pi pi-download"></i>
+                            Download SSIS Package
                         </span>
                     </button>
                 </ng-template>
@@ -69,8 +72,8 @@
                        <app-metadata-preview [fileContent]="fileContent"></app-metadata-preview>
                     </div>
                     <div class="flex pt-6 justify-between">                        
-                        <p-button (onClick)="activateCallback(1)" label="Back" severity="secondary" icon="pi pi-arrow-left" />
-                        <p-button (onClick)="activateCallback(3)" label="Next" icon="pi pi-arrow-right" iconPos="right" class="btn-next" />
+                        <!-- <p-button (onClick)="activateCallback(1)" label="Back" severity="secondary" icon="pi pi-arrow-left" /> -->
+                        <p-button (onClick)="activateCallback(3)" label="Generate Package" icon="pi pi-arrow-right" iconPos="right" class="btn-next" />
                     </div>
                 </ng-template>
             </p-step-panel>
@@ -81,7 +84,7 @@
                      
                     </div>
                     <div class="flex pt-6 justify-start">
-                        <p-button (onClick)="activateCallback(2)" label="Back" severity="secondary" icon="pi pi-arrow-left" />
+                     <!--    <p-button (onClick)="activateCallback(2)" label="Back" severity="secondary" icon="pi pi-arrow-left" /> -->
                     </div>
                 </ng-template>
             </p-step-panel>

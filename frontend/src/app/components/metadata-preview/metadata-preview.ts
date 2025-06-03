@@ -17,7 +17,7 @@ export class MetadataPreview implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.fileContent)
+    //console.log(this.fileContent)
   }
 
 }
