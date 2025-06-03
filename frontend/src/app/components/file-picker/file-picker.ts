@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FileImportService } from '../../service/file-import.service';
+import { ApiService } from '../../service/api.service';
 
 @Component({
   selector: 'app-file-picker',
@@ -21,7 +22,9 @@ export class FilePicker implements OnInit {
   @Output() onFileSelect = new EventEmitter<string>();
   files = [];
   fileContent: any;
-  constructor(private messageService: MessageService, private fileImportService: FileImportService) {
+  constructor(private messageService: MessageService,
+     private fileImportService: FileImportService,
+    private apiService: ApiService) {
 
   }
   ngOnInit(): void {
@@ -31,7 +34,7 @@ export class FilePicker implements OnInit {
         this.fileImportService.setSelectedFileContent(this.fileContent);
         this.onFileSelect.emit(this.fileContent);
       }
-    })
+    })     
   }
 
   choose(event: any, callback: any) {
@@ -82,7 +85,14 @@ export class FilePicker implements OnInit {
         .then((arrayBuffer: ArrayBuffer) => {   
           const base64String = this.arrayBufferToBase64(arrayBuffer);
           //TODO: Call endpoint to upload the file
-          console.log("Call endpoint")
+          const payload = { data: base64String}
+          this.apiService.analyzeFile(payload).subscribe (
+            {
+              next: (res) => {
+                console.log(res);
+              }
+            }
+          )
         })
         .catch((error: any) => {
           console.error('Error reading file:', error);
