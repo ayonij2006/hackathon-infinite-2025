@@ -3,12 +3,9 @@ import { FileImportService } from '../../service/file-import.service';
 import { CardModule } from 'primeng/card';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HotTableModule, HotTableRegisterer } from '@handsontable/angular';
-import { registerAllModules } from 'handsontable/registry';
-import { ContextMenu, ManualColumnResize } from 'handsontable/plugins';
 import { ApiService } from '../../service/api.service';
 import { LoaderService } from '../../layout/loader/loader.service';
 import { ToastMessageService } from '../../layout/message/message.service';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-metadata-preview',
@@ -17,7 +14,6 @@ import { finalize } from 'rxjs/operators';
   styleUrl: './metadata-preview.scss',
 })
 export class MetadataPreview implements OnInit {
-  @Input() fileContent!: string;
   labelForm!: FormGroup;
   tableData: any;
   tableId: string = 'table-id';
@@ -28,11 +24,9 @@ export class MetadataPreview implements OnInit {
     private apiService: ApiService,
     private loaderService: LoaderService,
     private toastMessageService: ToastMessageService,
-    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    //console.log(this.fileContent)
     this.labelForm = new FormGroup({
       field_delimiter: new FormControl(''),
       row_separator: new FormControl(''),

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { FilePicker } from '../file-picker/file-picker';
 import { FileImportService } from '../../service/file-import.service';
 import { MetadataPreview } from "../metadata-preview/metadata-preview";
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-file-import',
@@ -17,7 +18,8 @@ import { MetadataPreview } from "../metadata-preview/metadata-preview";
     CommonModule,
     FormsModule,
     FilePicker,
-    MetadataPreview
+    MetadataPreview,
+    CardModule
 ],
   templateUrl: './file-import.html',
   styleUrl: './file-import.scss',
@@ -26,7 +28,7 @@ export class FileImport implements OnInit  {
 
   activeStep: number = 1;
   disableFilePreviewNxt: boolean = true;
-  fileContent!: string;
+  fileContent!: any;
   constructor(private fileImportService: FileImportService) {}
 
   ngOnInit(): void {
@@ -43,7 +45,7 @@ export class FileImport implements OnInit  {
     this.fileImportService.setReadyToGenPackage(true);
   }
 
-  onFileSelect(event: string) {
-    this.fileContent = event;
+  onFileSelect(event: any) {
+    this.fileContent = event?.join("\n");
   }
 }

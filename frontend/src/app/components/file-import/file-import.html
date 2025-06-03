@@ -1,65 +1,104 @@
 <div class="card flex justify-center container">
-    <p-stepper [(value)]="activeStep" class="basis-[40rem]" [linear]="true">
-        <p-step-list>
-            <p-step [value]="1" class="flex flex-row flex-auto gap-2">
-                <ng-template #content let-activateCallback="activateCallback" let-value="value">
-                    <button class="bg-transparent border-0 inline-flex flex-col gap-2" (click)="activateCallback()">
-                        <span
-                            class="rounded-full border-2 w-12 h-12 inline-flex items-center justify-center"
-                            [ngClass]="{
+  <p-stepper [(value)]="activeStep" class="basis-[40rem]" [linear]="true">
+    <p-step-list>
+      <p-step [value]="1" class="flex flex-row flex-auto gap-2">
+        <ng-template
+          #content
+          let-activateCallback="activateCallback"
+          let-value="value"
+        >
+          <button
+            class="bg-transparent border-0 inline-flex flex-col gap-2"
+            (click)="activateCallback()"
+          >
+            <span
+              class="rounded-full border-2 w-12 h-12 inline-flex items-center justify-center"
+              [ngClass]="{
                                 'bg-primary text-primary-contrast border-primary': value <= activeStep,
                                 'border-surface': value > activeStep
                             }"
-                        >
-                            <i class="pi pi-file-import"></i>
-                            Import File
-                        </span>
-                    </button>
-                </ng-template>
-            </p-step>
+            >
+              <i class="pi pi-file-import"></i>
+              Import File
+            </span>
+          </button>
+        </ng-template>
+      </p-step>
 
-            <p-step [value]="2" class="flex flex-row flex-auto gap-2">
-                <ng-template #content let-activateCallback="activateCallback" let-value="value">
-                    <button class="bg-transparent border-0 inline-flex flex-col gap-2" (click)="activateCallback()">
-                        <span
-                            class="rounded-full border-2 w-12 h-12 inline-flex items-center justify-center"
-                            [ngClass]="{
+      <p-step [value]="2" class="flex flex-row flex-auto gap-2">
+        <ng-template
+          #content
+          let-activateCallback="activateCallback"
+          let-value="value"
+        >
+          <button
+            class="bg-transparent border-0 inline-flex flex-col gap-2"
+            (click)="activateCallback()"
+          >
+            <span
+              class="rounded-full border-2 w-12 h-12 inline-flex items-center justify-center"
+              [ngClass]="{
                                 'bg-primary text-primary-contrast border-primary': value <= activeStep,
                                 'border-surface': value > activeStep
                             }"
-                        >
-                            <i class="pi pi-info-circle"></i>
-                            View File Metadata
-                        </span>
-                    </button>
-                </ng-template>
-            </p-step>
-        </p-step-list>
+            >
+              <i class="pi pi-info-circle"></i>
+              View File Metadata
+            </span>
+          </button>
+        </ng-template>
+      </p-step>
+    </p-step-list>
 
-        <p-step-panels>
-            <p-step-panel [value]="1">
-                <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col gap-2 mx-auto step-container">
-                       <app-file-picker (onFileSelect)="onFileSelect($event)"></app-file-picker>
-                    </div>
-                    <div class="flex pt-6 justify-end">
-                        <p-button (onClick)="activateCallback(2); notifyNext()" label="Analyze File" icon="pi pi-arrow-right" [disabled]="this.disableFilePreviewNxt"
-                        iconPos="right" class="btn-next"/>
-                    </div>
-                </ng-template>
-            </p-step-panel>
+    <p-step-panels>
+      <p-step-panel [value]="1">
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="flex flex-col gap-2 mx-auto step-container">
+            <app-file-picker
+              (onFileSelect)="onFileSelect($event)"
+            ></app-file-picker>
+          </div>
+          <div class="flex pt-6 justify-end">
+            <p-button
+              (onClick)="activateCallback(2); notifyNext()"
+              label="Analyze File"
+              icon="pi pi-arrow-right"
+              [disabled]="this.disableFilePreviewNxt"
+              iconPos="right"
+              class="btn-next"
+            />
+          </div>
+        </ng-template>
+      </p-step-panel>
 
-            <p-step-panel [value]="2">
-                <ng-template #content let-activateCallback="activateCallback">
-                    <div class="flex flex-col gap-2 mx-auto step-container" >
-                       <app-metadata-preview [fileContent]="fileContent"></app-metadata-preview>
-                    </div>
-                    <div class="flex pt-6 justify-between">                        
-                        <!-- <p-button (onClick)="activateCallback(1)" label="Back" severity="secondary" icon="pi pi-arrow-left" /> -->
-                        <p-button (onClick)="notifyToGenPackage()" label="Download SSIS Package" icon="pi pi-download" iconPos="left" class="btn-next" />
-                    </div>
-                </ng-template>
-            </p-step-panel>
-        </p-step-panels>
-    </p-stepper>
+      <p-step-panel [value]="2">
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="two-column-layout">
+            <div class="column-item step-container">
+              <p-card header="File Metadata & Mappings">
+                <app-metadata-preview></app-metadata-preview>
+              </p-card>
+            </div>
+            @if(fileContent) {
+            <div class="column-item">
+              <p-card header="Sample File Preview" >
+                <pre class="custom-code">{{fileContent}}</pre>
+              </p-card>
+            </div>
+            }
+          </div>
+
+          <div class="flex pt-6 justify-between">
+            <p-button
+              (onClick)="notifyToGenPackage()"
+              label="Download SSIS Package"
+              icon="pi pi-download"
+              iconPos="left"
+              class="btn-next"
+            />
+          </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-panels>
+  </p-stepper>
 </div>
