@@ -17,6 +17,7 @@ export class MetadataPreview implements OnInit {
   labelForm!: FormGroup;
   tableData: any;
   tableId: string = 'table-id';
+  filePath!: string;
   private hotRegisterer = new HotTableRegisterer();
 
   constructor(
@@ -34,54 +35,19 @@ export class MetadataPreview implements OnInit {
     });
     this.fileImportService.filePayload.subscribe((payload: any) => {
       this.apiService.analyzeFile(payload).subscribe({
-        next: (res) => {
+        next: (res: any) => {
+          if(res) {
           this.loaderService.hide();
           this.toastMessageService.show({
             severity: 'success',
             summary: 'Success',
             detail: 'Meta data Extracted Successfully',
           });
-          const mockRes = {
-            field_qualifier: '',
-            field_delimiter: '|',
-            row_separator: 'CRLF',
-            mappings: [
-              {
-                src_column_name: 'id',
-                trg_column_name: 'id',
-                datatype: 'identity',
-              },
-              {
-                src_column_name: 'first_name',
-                trg_column_name: 'ifirst_named',
-                datatype: 'varchar',
-              },
-              {
-                src_column_name: 'last_name',
-                trg_column_name: 'last_name',
-                datatype: 'varchar',
-              },
-              {
-                src_column_name: 'last_name',
-                trg_column_name: 'last_name',
-                datatype: 'varchar',
-              },
-              {
-                src_column_name: 'gender',
-                trg_column_name: 'gender',
-                datatype: 'varchar',
-              },
-              {
-                src_column_name: 'ip_address',
-                trg_column_name: 'ip_address',
-                datatype: 'varchar',
-              },
-            ]
-          };
-          this.tableData = mockRes?.mappings;
-          //TODO: remove mock data and replace mockRes by res
-          this.patchValues(mockRes);
-        },
+          this.tableData = res?.mappings;
+          this.patchValues(res);
+          this.filePath = res?.filePath;
+        }
+      },
         error: (err) => {
           this.loaderService.hide();
           this.toastMessageService.show({
@@ -103,7 +69,8 @@ export class MetadataPreview implements OnInit {
   onSubmit() {
     const request = {
       ...this.labelForm.value,
-      mappings: this.tableData
+      mappings: this.tableData,
+      filePath: this.filePath
     }
     this.loaderService.show();
     this.apiService.genPackage(request).subscribe( {

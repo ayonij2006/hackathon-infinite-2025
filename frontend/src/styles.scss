@@ -30,9 +30,16 @@ body {
 }
 
 .p-button-warn {
-  background: #fa903e;
+  background: #c89d7a !important;
   border: 1px solid var(--p-button-warn-border-color);
   color: var(--p-button-warn-color);
+}
+
+.p-button-text.p-button-danger
+ {
+    background: transparent;
+    border-color: transparent;
+    color: #c89d7a !important;;
 }
 
 .handsontable {
