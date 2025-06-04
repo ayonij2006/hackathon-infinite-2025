@@ -1,3 +1,4 @@
+import os
 from fastapi import Body, FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -77,6 +78,7 @@ def handle_base64_file(filename: str, b64_string: str):
 
         # construct file path
         filePath = "./sample_files/" + filename
+        os.makedirs("sample_files", exist_ok=True)
 
         # Pass raw_bytes to whatever logic you want (e.g., save to disk, parse lines)
         with open(filePath, "wb") as f:
