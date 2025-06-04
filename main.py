@@ -40,8 +40,8 @@ async def upload_file(file: UploadFile = File(...)):
 
 @app.post("/analyze/")
 async def analyze_file(base64request: Base64Request):
-    main()
     handle_base64_file(base64request.data)
+    main()
     return JSONResponse({
         "file_contents": base64request.data
     })
