@@ -3,8 +3,151 @@
 /* @plugin "tailwindcss-primeui"; */
 @use "primeicons/primeicons.css";
 //@use 'primeflex/primeflex.scss';
-@import 'handsontable/dist/handsontable.full.min.css';
+@import "handsontable/dist/handsontable.full.min.css";
 
 body {
-  font-family: 'Roboto', 'Open Sans', sans-serif;
+  font-family: "Roboto", "Open Sans", sans-serif;
+}
+
+.p-card-title {
+  //color: #81c995 !important;
+  color: #FFFFFF !important;
+}
+
+.p-menubar {
+  background: #424254 !important;
+  height: 5.5rem;
+  border: 1px solid #5E5E6E;
+}
+
+.p-menubar-item-label {
+  //color: rgb(181, 181, 200);
+  color: #E0E0E0; 
+}
+
+.p-menubar-item-icon {
+    color: #E0E0E0 !important;
+}
+
+.p-button-warn {
+  background: #fa903e;
+  border: 1px solid var(--p-button-warn-border-color);
+  color: var(--p-button-warn-color);
+}
+
+.handsontable {
+  background-color: #2a2a33; /* Dark background for the table container */
+  color: #e0e0e0; /* Light text color for general text within the table */
+  border-radius: 8px; /* Your desired border radius */
+  overflow: hidden;
+}
+
+.handsontable th {
+  background-color: #363642; /* Slightly lighter or distinct dark for headers */
+  color: #f0f0f5; /* Bright text for headers */
+  font-weight: 600; /* Make header text a bit bolder */
+  border-bottom: 1px solid #4a4a57; /* Separator for column headers */
+  border-right: 1px solid #4a4a57; /* Separator for row headers */
+}
+
+.handsontable th .colHeader {
+  text-shadow: none;
+}
+
+.handsontable th.htDimmed {
+  color: black !important;
+  background-color: #363642 !important;
+}
+
+.handsontable td {
+  background-color: #212129;
+  color: #d8d8dd;
+  border-right: 1px solid #383844;
+  border-bottom: 1px solid #383844;
+}
+
+.handsontable tbody tr:nth-child(even) td {
+  background-color: #25252d;
+}
+.handsontable tbody tr:nth-child(odd) td {
+  background-color: #212129;
+}
+
+.handsontable .ht__selection-border {
+  background-color: rgba(80, 130, 220, 0.2) !important;
+}
+.handsontable .ht__active_highlight {
+  background-color: #424b5e;
+}
+.handsontable .area.highlight {
+  background-color: rgba(80, 130, 220, 0.25) !important;
+}
+
+.handsontable td.currentRow,
+.handsontable .ht__highlight.ht__active_row {
+  background-color: #2c2c3a !important;
+}
+
+.handsontable th.currentCol,
+.handsontable .ht__highlight.ht__active_col {
+  background-color: #404050 !important;
+}
+
+.handsontable .htEditProxyHolder .htCornea {
+  background-color: #5082dc;
+  border-color: #5082dc;
+}
+.handsontable .htHandsontableInputHolder .htFocus {
+  background-color: #1c1c22;
+  color: #e0e0e0;
+  border: 1px solid #5082dc;
+  box-shadow: 0 0 0 2px rgba(80, 130, 220, 0.3);
+}
+
+.handsontable .htInvalid {
+  background-color: rgba(200, 70, 70, 0.3) !important;
+  color: #ffcccc !important;
+}
+
+.handsontable .htDimmed {
+  color: #888b94;
+}
+
+.handsontable .wtHolder::-webkit-scrollbar-track {
+  background: #2a2a33;
+}
+.handsontable .wtHolder::-webkit-scrollbar-thumb {
+  background-color: #4f4f5e;
+  border-radius: 4px;
+  border: 2px solid #2a2a33;
+}
+.handsontable .wtHolder::-webkit-scrollbar-corner {
+  background: #2a2a33;
+}
+.p-contextmenu.p-component {
+  background-color: #363642 !important;
+  border: 1px solid #4a4a57 !important;
+  border-radius: 6px;
+}
+.p-contextmenu .p-menuitem > .p-menuitem-content {
+  background-color: transparent !important;
+}
+.p-contextmenu .p-menuitem .p-menuitem-link {
+  color: #e0e0e0 !important;
+}
+.p-contextmenu .p-menuitem .p-menuitem-link:hover {
+  background-color: #424b5e !important;
+  color: #ffffff !important;
+}
+.p-contextmenu .p-menuitem-separator {
+  border-top: 1px solid #4a4a57 !important;
+}
+
+.handsontable tbody th.ht__highlight,
+.handsontable thead th.ht__highlight {
+  background-color: #4a4a57;
+}
+
+.handsontable .area.highlight {
+  background-color: #4a4a57 !important;
 }

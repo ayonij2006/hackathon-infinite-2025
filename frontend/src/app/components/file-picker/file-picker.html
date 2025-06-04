@@ -5,8 +5,10 @@
         <ng-template #header let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
         <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
             <div class="flex gap-2">
-                <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-paperclip" label="Attach File" class="btn-upload" />               
-                <p-button (onClick)="clearCallback()" icon="pi pi-times" severity="danger" label="Cancel" [disabled]="!files || files.length === 0" />
+                <p-button (onClick)="choose($event, chooseCallback)" icon="pi pi-paperclip" label="Attach File" class="btn-upload" severity="secondary"/>   
+                @if(files && files.length > 0) {            
+                <p-button (onClick)="clearCallback()" icon="pi pi-times" severity="warn" label="Cancel" />
+                }
             </div>
          
         </div>

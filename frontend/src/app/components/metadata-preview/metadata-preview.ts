@@ -150,13 +150,13 @@ export class MetadataPreview implements OnInit {
       columns: this.getColumns(),
       colHeaders: true,
       rowHeaders: true,
-      height: 300,
+      height: 'auto',
       overflow: 'auto',
       manualColumnResize: true,
       manualRowMove: true,
       licenseKey: 'non-commercial-and-evaluation',
       contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo'],
-      colWidths: [200, 200, 200],
+      colWidths: [220, 220, 200],
     };
   }
 

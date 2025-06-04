@@ -30,3 +30,9 @@
     overflow: auto;
     padding: 0.5rem;
 }
+
+.custom-card {
+    font-size: var(--p-card-title-font-size);
+    font-weight: var(--p-card-title-font-weight);
+    color: #c58af9 !important;
+}
