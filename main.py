@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from models.Base64Request import Base64Request
 from models.CreatePackageRequest import CreatePackageRequest
+from ml_model import main;
 
 import base64
 
@@ -39,6 +40,7 @@ async def upload_file(file: UploadFile = File(...)):
 
 @app.post("/analyze/")
 async def analyze_file(base64request: Base64Request):
+    main()
     handle_base64_file(base64request.data)
     return JSONResponse({
         "file_contents": base64request.data
