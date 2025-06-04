@@ -47,7 +47,7 @@ async def analyze_file(base64request: Base64Request):
     if filePath.startswith("error: "):
         return {"status": "error", "message": filePath}
     main(filePath)
-    return JSONResponse({"file_contents": base64request.data})
+    return JSONResponse({"file_contents": base64request.data, "filePath": filePath})
 
 
 import base64

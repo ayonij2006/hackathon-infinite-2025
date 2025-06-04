@@ -9,4 +9,5 @@ class CreatePackageRequest (BaseModel):
     field_qualifier: str
     field_delimiter: str
     row_separator: str
+    filePath: str
     mappings: list[MapModel]
