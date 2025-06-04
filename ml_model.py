@@ -131,7 +131,8 @@ def infer_sql_types(series):
 
     return "VARCHAR(255)"
 
-def main():
+def main(filename: str):
+    file_path = filename
     if os.path.exists(MODEL_PATH):
         clf = joblib.load(MODEL_PATH)
     else:
@@ -162,5 +163,5 @@ def main():
         col_name = col.strip('"').strip("'").strip('`')
         print(f"  {col_name}: {infer_sql_types(df[col])}")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

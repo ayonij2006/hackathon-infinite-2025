@@ -7,3 +7,4 @@ pyvenv.cfg
 env/
 venv/
 .env
+sample_files/
