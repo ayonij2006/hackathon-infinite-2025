@@ -19,6 +19,7 @@ export class MetadataPreview implements OnInit {
   tableId: string = 'table-id';
   filePath!: string;
   private hotRegisterer = new HotTableRegisterer();
+  fileName!: any;
 
   constructor(
     private fileImportService: FileImportService,
@@ -46,6 +47,7 @@ export class MetadataPreview implements OnInit {
           this.tableData = res?.mappings;
           this.patchValues(res);
           this.filePath = res?.filePath;
+          this.fileName = res?.fileName;
         }
       },
         error: (err) => {
@@ -70,7 +72,8 @@ export class MetadataPreview implements OnInit {
     const request = {
       ...this.labelForm.value,
       mappings: this.tableData,
-      filePath: this.filePath
+      filePath: this.filePath,
+      fileName: this.fileName
     }
     this.loaderService.show();
     this.apiService.genPackage(request).subscribe( {

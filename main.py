@@ -45,9 +45,10 @@ async def upload_file(file: UploadFile = File(...)):
 @app.post("/analyze/")
 async def analyze_file(base64request: Base64Request):
     filePath = handle_base64_file(base64request.fileName, base64request.data)
+    print(f"48" + filePath)
     if filePath.startswith("error: "):
         return {"status": "error", "message": filePath}
-    resObj = main(filePath)
+    resObj = main(base64request.fileName, filePath)
     return JSONResponse(content=resObj.dict())
 
 
@@ -77,8 +78,9 @@ def handle_base64_file(filename: str, b64_string: str):
         raw_bytes = base64.b64decode(b64_string)
 
         # construct file path
-        filePath = "./sample_files/" + filename
-        os.makedirs("sample_files", exist_ok=True)
+        fileDir = "C:/temp/sample_files/"
+        filePath = fileDir + filename
+        os.makedirs(fileDir, exist_ok=True)
 
         # Pass raw_bytes to whatever logic you want (e.g., save to disk, parse lines)
         with open(filePath, "wb") as f:

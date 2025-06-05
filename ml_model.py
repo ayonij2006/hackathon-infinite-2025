@@ -133,8 +133,9 @@ def infer_sql_types(series):
 
     return "VARCHAR(255)"
 
-def main(filename: str):
-    file_path = filename
+def main(filename: str, filepath: str):
+    file_path = filepath
+    print("from main: " + file_path)
     if os.path.exists(MODEL_PATH):
         clf = joblib.load(MODEL_PATH)
     else:
@@ -175,6 +176,7 @@ def main(filename: str):
         field_delimiter=field_delim,
         row_separator=row_sep,
         filePath=file_path,
-        mappings=mappings
+        mappings=mappings,
+        fileName=filename
     )
 
