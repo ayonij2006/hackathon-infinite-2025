@@ -1,4 +1,6 @@
+import json
 import os
+import subprocess
 from fastapi import Body, FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,12 +13,18 @@ import base64
 
 app = FastAPI()
 
+# Root dir
+fileDir = "C:/temp/sample_files/"
+
+# Exe path
+exe_path = "./packagecreator.exe"
+
 # Allow Angular dev server
 origins = ["http://localhost:4200"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # 👈 allows Angular
+    allow_origins=origins,  # allows Angular
     allow_credentials=True,
     allow_methods=["*"],  # GET, POST, PUT, DELETE, etc.
     allow_headers=["*"],  # Authorization, Content-Type, etc.
@@ -57,16 +65,15 @@ import base64
 
 @app.post("/create/")
 async def create_package(mapRequest: CreatePackageRequest):
-    generate_package(mapRequest)
-    file_path = "./output.txt"
-    file_name = "output.txt"
+    conf_file_path = create_conf(mapRequest)
+    # generate_package(mapRequest, conf_file_path)
 
-    with open(file_path, "rb") as f:
+    with open(conf_file_path, "rb") as f:
         content_bytes = f.read()
 
     return {
         "message": "file created successfully",
-        "filename": file_name,
+        "filename": conf_file_path,
         "content": content_bytes,
     }
 
@@ -78,7 +85,6 @@ def handle_base64_file(filename: str, b64_string: str):
         raw_bytes = base64.b64decode(b64_string)
 
         # construct file path
-        fileDir = "C:/temp/sample_files/"
         filePath = fileDir + filename
         os.makedirs(fileDir, exist_ok=True)
 
@@ -92,8 +98,26 @@ def handle_base64_file(filename: str, b64_string: str):
         return "error: " + str(e)
 
 
-def generate_package(mapRequest: CreatePackageRequest):
+def generate_package(mapRequest: CreatePackageRequest, conf_file_path: str):
     if mapRequest is not None:
-        return "successful"
+        result = subprocess.run([exe_path, conf_file_path], capture_output=True, text=True)
+        
+        # Check result
+        print("Return Code:", result.returncode)
+        
+        if result.returncode == 0:
+            return "success"
+        else:
+            return result.stderr.strip()
     else:
-        return "unsuccessful"
+        return "invalid map"
+
+
+def create_conf(mapRequest: CreatePackageRequest):
+    name_without_ext = mapRequest.fileName.rsplit(".", 1)[0]
+    conf_file_path = fileDir + name_without_ext + ".conf"
+    print(f"119" + conf_file_path)
+    with open(conf_file_path, "w") as f:
+        json.dump(mapRequest.model_dump(), f)
+
+    return conf_file_path
