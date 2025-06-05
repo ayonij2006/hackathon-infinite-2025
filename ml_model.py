@@ -6,6 +6,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 import joblib
 import os
 
+from models.CreatePackageRequest import CreatePackageRequest, MapModel
+
 delimiters = [',', '\t', ';', '|', ':', '~|~']
 qualifiers = ['"', "'", '`', '']
 MODEL_PATH = 'delimitermodel.pkl'
@@ -158,10 +160,21 @@ def main(filename: str):
         print(f"Error reading file: {e}")
         return
 
-    print("\nInferred SQL Column Types:")
+    mappings = []
     for col in df.columns:
         col_name = col.strip('"').strip("'").strip('`')
-        print(f"  {col_name}: {infer_sql_types(df[col])}")
+        datatype = infer_sql_types(df[col])
+        mappings.append(MapModel(
+            src_column_name=col_name,
+            trg_column_name=col_name,
+            datatype=datatype
+        ))
 
-# if __name__ == "__main__":
-#     main()
+    return CreatePackageRequest(
+        field_qualifier=field_qual,
+        field_delimiter=field_delim,
+        row_separator=row_sep,
+        filePath=file_path,
+        mappings=mappings
+    )
+

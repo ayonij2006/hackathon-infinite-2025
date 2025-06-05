@@ -47,8 +47,8 @@ async def analyze_file(base64request: Base64Request):
     filePath = handle_base64_file(base64request.fileName, base64request.data)
     if filePath.startswith("error: "):
         return {"status": "error", "message": filePath}
-    main(filePath)
-    return JSONResponse({"file_contents": base64request.data, "filePath": filePath})
+    resObj = main(filePath)
+    return JSONResponse(content=resObj.dict())
 
 
 import base64
