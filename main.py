@@ -17,7 +17,7 @@ app = FastAPI()
 fileDir = "C:/temp/sample_files/"
 
 # Exe path
-exe_path = "./packagecreator.exe"
+exe_path = "C:/Users/DELL/Desktop/ssisGen/ssisGen/bin/Debug/ssisGen.exe"
 
 # Allow Angular dev server
 origins = ["http://localhost:4200"]
@@ -65,15 +65,22 @@ import base64
 
 @app.post("/create/")
 async def create_package(mapRequest: CreatePackageRequest):
-    conf_file_path = create_conf(mapRequest)
-    # generate_package(mapRequest, conf_file_path)
+    name_without_ext = create_conf(mapRequest)
+    # conf file path
+    conf_file_path = fileDir + name_without_ext + ".txt"
+    
+    # conf file path
+    dtsx_file_path = fileDir + name_without_ext + ".dtsx"
+    dtsx_file_name = name_without_ext + ".dtsx"
+    
+    generate_package(mapRequest, conf_file_path)
 
-    with open(conf_file_path, "rb") as f:
+    with open(dtsx_file_path, "rb") as f:
         content_bytes = f.read()
 
     return {
         "message": "file created successfully",
-        "filename": conf_file_path,
+        "filename": dtsx_file_name,
         "content": content_bytes,
     }
 
@@ -100,8 +107,14 @@ def handle_base64_file(filename: str, b64_string: str):
 
 def generate_package(mapRequest: CreatePackageRequest, conf_file_path: str):
     if mapRequest is not None:
-        result = subprocess.run([exe_path, conf_file_path], capture_output=True, text=True)
+        # result = subprocess.run([exe_path, conf_file_path], capture_output=True, text=True, check=True)
         
+        result = subprocess.run(
+            [exe_path, conf_file_path],
+            capture_output=True,
+            text=True
+        )
+
         # Check result
         print("Return Code:", result.returncode)
         
@@ -115,9 +128,9 @@ def generate_package(mapRequest: CreatePackageRequest, conf_file_path: str):
 
 def create_conf(mapRequest: CreatePackageRequest):
     name_without_ext = mapRequest.fileName.rsplit(".", 1)[0]
-    conf_file_path = fileDir + name_without_ext + ".conf"
+    conf_file_path = fileDir + name_without_ext + ".txt"
     print(f"119" + conf_file_path)
     with open(conf_file_path, "w") as f:
         json.dump(mapRequest.model_dump(), f)
 
-    return conf_file_path
+    return name_without_ext
